@@ -1,5 +1,5 @@
-# PyInstaller spec for a standalone FileNamer.exe
-# Run: pyinstaller FileNamer.spec
+# PyInstaller spec for a standalone MediaNamer.exe
+# Run: pyinstaller MediaNamer.spec
 
 from PyInstaller.utils.hooks import collect_all
 
@@ -34,7 +34,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='FileNamer',
+    name='MediaNamer',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

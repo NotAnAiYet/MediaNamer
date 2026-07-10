@@ -1,8 +1,8 @@
-# FileNamer
+# MediaNamer
 
 Rename images and videos with auto-generated filenames to meaningful names.
 
-FileNamer scans a folder, shows only media files whose names look non-descriptive (timestamps, random IDs, downloader names, camera defaults), and lets you preview each file and rename it one at a time.
+MediaNamer scans a folder, shows only media files whose names look non-descriptive (timestamps, random IDs, downloader names, camera defaults), and lets you preview each file and rename it one at a time.
 
 ## Requirements
 
@@ -20,10 +20,10 @@ python main.py
 
 ```bash
 pip install -r requirements-build.txt
-pyinstaller --noconfirm --clean FileNamer.spec
+pyinstaller --noconfirm --clean MediaNamer.spec
 ```
 
-Output: `dist/FileNamer.exe`
+Output: `dist/MediaNamer.exe`
 
 ## Usage
 
@@ -56,8 +56,8 @@ Supported media: common image formats (JPG, PNG, GIF, WebP, …) and video forma
 ## Project structure
 
 ```
-FileNamer/
-├── filenamer/
+MediaNamer/
+├── medianamer/
 │   ├── app.py           Application entry point
 │   ├── main_window.py   Main window (wiring only)
 │   ├── media_player.py  Video playback
@@ -71,7 +71,7 @@ FileNamer/
 │   └── test_rename.py
 ├── exampleData/         Local test media (gitignored)
 ├── main.py
-├── FileNamer.spec       PyInstaller build config
+├── MediaNamer.spec      PyInstaller build config
 ├── requirements.txt
 └── requirements-build.txt
 ```

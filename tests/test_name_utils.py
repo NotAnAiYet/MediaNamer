@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from filenamer.name_utils import find_files_needing_rename, is_descriptive_name, needs_rename
+from medianamer.name_utils import find_files_needing_rename, is_descriptive_name, needs_rename
 
 EXAMPLE_DATA_CURRENT = Path(__file__).resolve().parent.parent / "exampleData" / "Current"
 

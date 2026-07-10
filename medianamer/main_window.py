@@ -17,18 +17,18 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from filenamer.media_player import VideoPlayer
-from filenamer.name_utils import is_image_file, is_media_file
-from filenamer.preview import ImagePreview
-from filenamer.rename import RenameError, RenameSession
-from filenamer.settings import AppSettings
-from filenamer.widgets import PreviewPanel
+from medianamer.media_player import VideoPlayer
+from medianamer.name_utils import is_image_file, is_media_file
+from medianamer.preview import ImagePreview
+from medianamer.rename import RenameError, RenameSession
+from medianamer.settings import AppSettings
+from medianamer.widgets import PreviewPanel
 
 
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("FileNamer")
+        self.setWindowTitle("MediaNamer")
         self.setMinimumSize(900, 650)
 
         self._settings = AppSettings()

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from filenamer.rename import RenameError, RenameSession, validate_new_name
+from medianamer.rename import RenameError, RenameSession, validate_new_name
 
 
 def test_validate_new_name():

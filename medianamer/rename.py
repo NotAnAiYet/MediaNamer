@@ -6,7 +6,7 @@ import os
 import re
 from pathlib import Path
 
-from filenamer.name_utils import find_files_needing_rename
+from medianamer.name_utils import find_files_needing_rename
 
 INVALID_FILENAME_CHARS = re.compile(r'[<>:"/\\|?*]')
 

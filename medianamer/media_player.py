@@ -8,8 +8,8 @@ from PyQt6.QtCore import QObject, QTimer, QUrl
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 from PyQt6.QtWidgets import QApplication, QLabel
 
-from filenamer.settings import AppSettings
-from filenamer.widgets import SeekSlider, VideoPanel
+from medianamer.settings import AppSettings
+from medianamer.widgets import SeekSlider, VideoPanel
 
 SEEK_TOLERANCE_MS = 500
 
