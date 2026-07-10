@@ -33,6 +33,8 @@ def test_undescriptive_names():
     assert not is_descriptive_name("320309338_706097217745185_4821093235619883660_n")
     assert not is_descriptive_name("ajVPg78_460sv")
     assert not is_descriptive_name("ssstwitter.com_1677363396448")
+    assert not is_descriptive_name("tumblr_oiiggtypn21sn0wg5o1_400")
+    assert not is_descriptive_name("serfdrsagregvergbreft")
     assert not is_descriptive_name("trim.B62AC75E-1030-4A26-A212-B3D79AB18929")
     assert not is_descriptive_name("unknown-3-1")
     assert not is_descriptive_name("untitled_42")

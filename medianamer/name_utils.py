@@ -44,7 +44,7 @@ _UUID_PATTERN = re.compile(
 
 # Downloader / CDN / auto-export prefixes
 _AUTO_SOURCE_PATTERNS = [
-    re.compile(r"(ssstwitter|saveclip|snaptik|tiktok|twimg|instagram|facebook|fbcdn)", re.IGNORECASE),
+    re.compile(r"(ssstwitter|saveclip|snaptik|tiktok|twimg|instagram|facebook|fbcdn|tumblr)", re.IGNORECASE),
     re.compile(r"\.com_\d", re.IGNORECASE),
     re.compile(r"^trim\.", re.IGNORECASE),
     re.compile(r"^(videoplayback|download|clip)\.", re.IGNORECASE),
@@ -68,6 +68,11 @@ def _split_segments(name: str) -> list[str]:
     return [part for part in re.split(r"[_.\-]+", name) if part]
 
 
+def _vowel_ratio(letters: str) -> float:
+    vowels = sum(1 for c in letters.lower() if c in "aeiou")
+    return vowels / len(letters) if letters else 0.0
+
+
 def _is_meaningful_word(word: str) -> bool:
     letters = re.sub(r"\d", "", word)
     if len(letters) < 4:
@@ -76,7 +81,11 @@ def _is_meaningful_word(word: str) -> bool:
         return False
     if not re.search(r"[aeiouAEIOU]", letters):
         return False
-    if letters.islower() or (letters[0].isupper() and letters[1:].islower()):
+    if letters.islower():
+        if len(letters) >= 16 and _vowel_ratio(letters) < 0.25:
+            return False
+        return True
+    if letters[0].isupper() and letters[1:].islower():
         return True
     # Intentional all-caps names (e.g. THEONEPIECEIS)
     if letters.isupper() and len(letters) >= 6:
@@ -132,6 +141,9 @@ def _looks_like_random_id(name: str) -> bool:
         return True
 
     if len(name) >= 12 and not meaningful:
+        return True
+
+    if re.fullmatch(r"[a-z]{18,}", name):
         return True
 
     return False
@@ -190,7 +202,10 @@ def is_descriptive_name(stem: str) -> bool:
     if _has_auto_generated_pattern(name):
         return False
 
-    return _has_human_phrase(name) or not re.search(r"[_\-.]", name)
+    letters_only = re.sub(r"\d", "", name)
+    return _has_human_phrase(name) or (
+        not re.search(r"[_\-.]", name) and len(letters_only) <= 15
+    )
 
 
 def needs_rename(path: Path) -> bool:

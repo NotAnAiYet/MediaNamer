@@ -36,28 +36,34 @@ Output: `dist/MediaNamer.exe`
 3. Type a new name (extension is kept automatically)
 4. Click **Save & Next** to rename, or **Skip** to leave unchanged
 
+### Settings
 
+- **Settings → Video autoplay** — start playback when a video loads (default: on)
+- **Settings → Video loop** — repeat the current video (default: off)
+- **Settings → Include subfolders** — also scan media in nested folders (default: off)
+
+Settings are saved between sessions.
+
+### Image preview
+
+- Static images are scaled to fit the preview area
+- GIFs play animated in the preview
 
 ### Video controls
 
 - **Click the video** to play or pause
 - **Click the seekbar** to jump to a position
-- **Settings → Video autoplay** — start playback when a video loads (default: on)
-- **Settings → Video loop** — repeat the current video (default: off)
-
-Settings are saved between sessions.
 
 ## What gets flagged?
-
 
 | Flagged (needs rename)             | Skipped (descriptive)    |
 | ---------------------------------- | ------------------------ |
 | `1677436352686185.webm`            | `LiftTogetherOrgans.mov` |
 | `G88xPUkWAAAYKvk.png`              | `my_vacation_photo.jpg`  |
 | `ssstwitter.com_1677363396448.mp4` | `birthdayParty.mp4`      |
+| `tumblr_oiiggtypn21sn0wg5o1_400.gif` | `THEONEPIECEIS.mp4`    |
 | `IMG_1234.jpg`                     | `I'mCat.mp4`             |
 | `trim.B62AC75E-….mov`              | `ProjectAlpha.mp4`       |
-
 
 Supported media: common image formats (JPG, PNG, GIF, WebP, …) and video formats (MP4, MOV, MKV, WebM, …).
 
@@ -83,8 +89,6 @@ MediaNamer/
 ├── requirements.txt
 └── requirements-build.txt
 ```
-
-
 
 ## Development
 
