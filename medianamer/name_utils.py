@@ -68,6 +68,14 @@ def _split_segments(name: str) -> list[str]:
     return [part for part in re.split(r"[_.\-]+", name) if part]
 
 
+def _looks_like_short_word_phrase(name: str) -> bool:
+    """True for simple multi-part names like ban_can or red_bus."""
+    segments = _split_segments(name)
+    if len(segments) < 2:
+        return False
+    return all(re.fullmatch(r"[a-zA-Z]{2,4}", segment) for segment in segments)
+
+
 def _vowel_ratio(letters: str) -> float:
     vowels = sum(1 for c in letters.lower() if c in "aeiou")
     return vowels / len(letters) if letters else 0.0
@@ -112,6 +120,8 @@ def _has_human_phrase(name: str) -> bool:
 
     segments = _split_segments(name)
     if len(segments) > 1:
+        if _looks_like_short_word_phrase(name):
+            return True
         return any(_is_meaningful_word(segment) for segment in segments)
 
     return False
@@ -119,6 +129,9 @@ def _has_human_phrase(name: str) -> bool:
 
 def _looks_like_random_id(name: str) -> bool:
     """Detect auto-generated IDs (e.g. Twitter/X downloads like G88xPUkWAAAYKvk)."""
+    if _has_human_phrase(name):
+        return False
+
     if not re.fullmatch(r"[A-Za-z0-9]+", name):
         return False
     if len(name) < 10:

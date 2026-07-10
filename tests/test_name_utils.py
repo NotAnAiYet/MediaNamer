@@ -17,6 +17,9 @@ def test_descriptive_names():
     assert is_descriptive_name("THEONEPIECEIS")
     assert is_descriptive_name("vacation2024")
     assert is_descriptive_name("MyPhoto123")
+    assert is_descriptive_name("ban_can")
+    assert is_descriptive_name("my_cat")
+    assert is_descriptive_name("HARAMYoMama")
 
 
 def test_undescriptive_names():

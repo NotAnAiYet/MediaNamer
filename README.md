@@ -62,8 +62,10 @@ Settings are saved between sessions.
 | `G88xPUkWAAAYKvk.png`              | `my_vacation_photo.jpg`  |
 | `ssstwitter.com_1677363396448.mp4` | `birthdayParty.mp4`      |
 | `tumblr_oiiggtypn21sn0wg5o1_400.gif` | `THEONEPIECEIS.mp4`    |
-| `IMG_1234.jpg`                     | `I'mCat.mp4`             |
-| `trim.B62AC75E-….mov`              | `ProjectAlpha.mp4`       |
+| `serfdrsagregvergbreft.gif`        | `ban_can.jpg`            |
+| `IMG_1234.jpg`                     | `HARAMYoMama.webm`       |
+| `trim.B62AC75E-….mov`              | `I'mCat.mp4`             |
+| `unknown-3-1.png`                  | `ProjectAlpha.mp4`       |
 
 Supported media: common image formats (JPG, PNG, GIF, WebP, …) and video formats (MP4, MOV, MKV, WebM, …).
 
