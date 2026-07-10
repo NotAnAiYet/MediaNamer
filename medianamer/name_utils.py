@@ -197,6 +197,24 @@ def _looks_like_random_id(name: str) -> bool:
     return False
 
 
+def _looks_like_hash_suffix(segment: str) -> bool:
+    """True when a trailing segment looks like an auto-generated hash."""
+    if len(segment) < 8:
+        return False
+    if not re.fullmatch(r"[A-Za-z0-9]+", segment):
+        return False
+    if re.fullmatch(r"[A-Za-z]{2,}\d{1,4}", segment):
+        return False
+    return _looks_like_random_id(segment)
+
+
+def _has_hash_suffix(name: str) -> bool:
+    segments = _split_segments(name)
+    if len(segments) < 2:
+        return False
+    return _looks_like_hash_suffix(segments[-1])
+
+
 def _has_auto_generated_pattern(name: str) -> bool:
     if _UUID_PATTERN.search(name):
         return True
@@ -215,6 +233,9 @@ def _has_auto_generated_pattern(name: str) -> bool:
     for pattern in _CAMERA_PATTERNS:
         if pattern.search(name):
             return True
+
+    if _has_hash_suffix(name):
+        return True
 
     segments = _split_segments(name)
     if len(segments) > 1 and not _has_human_phrase(name):

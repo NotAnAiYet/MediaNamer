@@ -52,6 +52,8 @@ def test_undescriptive_names():
     assert not is_descriptive_name("vd90p8p")
     assert not is_descriptive_name("EBfJPSWX4AISrUP")
     assert not is_descriptive_name("awrfwafaw")
+    assert not is_descriptive_name("MediaNamer_Uo1lzfYUQV")
+    assert not is_descriptive_name("PenguinHotel-Win64-Shipping_quP3CGX3wi")
 
 
 def test_example_data_current_folder():
