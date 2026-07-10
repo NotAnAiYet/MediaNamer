@@ -2,6 +2,8 @@
 
 Rename images and videos with auto-generated filenames to meaningful names.
 
+<img width="902" height="682" alt="image" src="https://github.com/user-attachments/assets/cd89164c-4158-423f-939c-7a8041aad768" />
+
 MediaNamer scans a folder, shows only media files whose names look non-descriptive (timestamps, random IDs, downloader names, camera defaults), and lets you preview each file and rename it one at a time.
 
 ## Download
