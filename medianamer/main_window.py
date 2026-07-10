@@ -158,6 +158,7 @@ class MainWindow(QMainWindow):
             return
 
         self._video.release()
+        self._image_preview.clear()
         self._folder_input.setText(str(folder))
         count = self._session.load(folder, include_subfolders=self._settings.include_subfolders)
 
@@ -213,6 +214,7 @@ class MainWindow(QMainWindow):
         self._image_preview.show(path, self._preview.size())
 
     def _show_video(self, path: Path) -> None:
+        self._image_preview.clear()
         self._preview.show_video()
         self._video.load(path)
 
@@ -245,7 +247,10 @@ class MainWindow(QMainWindow):
 
     def _release_before_rename(self) -> None:
         path = self._session.current()
-        if path and not is_image_file(path):
+        if path and is_image_file(path):
+            self._image_preview.clear()
+            self._preview.show_empty()
+        elif path and not is_image_file(path):
             self._preview.show_empty()
         self._video.release()
 
@@ -265,4 +270,5 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event) -> None:  # noqa: N802
         self._video.release()
+        self._image_preview.clear()
         super().closeEvent(event)
