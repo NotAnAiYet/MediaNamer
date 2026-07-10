@@ -4,6 +4,10 @@ Rename images and videos with auto-generated filenames to meaningful names.
 
 MediaNamer scans a folder, shows only media files whose names look non-descriptive (timestamps, random IDs, downloader names, camera defaults), and lets you preview each file and rename it one at a time.
 
+## Download
+
+Download `MediaNamer.exe` from the [releases](https://github.com/NotAnAiYet/MediaNamer/releases).
+
 ## Requirements
 
 - Python 3.10+
@@ -32,6 +36,8 @@ Output: `dist/MediaNamer.exe`
 3. Type a new name (extension is kept automatically)
 4. Click **Save & Next** to rename, or **Skip** to leave unchanged
 
+
+
 ### Video controls
 
 - **Click the video** to play or pause
@@ -43,13 +49,15 @@ Settings are saved between sessions.
 
 ## What gets flagged?
 
-| Flagged (needs rename) | Skipped (descriptive) |
-|------------------------|------------------------|
-| `1677436352686185.webm` | `LiftTogetherOrgans.mov` |
-| `G88xPUkWAAAYKvk.png` | `my_vacation_photo.jpg` |
-| `ssstwitter.com_1677363396448.mp4` | `birthdayParty.mp4` |
-| `IMG_1234.jpg` | `I'mCat.mp4` |
-| `trim.B62AC75E-….mov` | `ProjectAlpha.mp4` |
+
+| Flagged (needs rename)             | Skipped (descriptive)    |
+| ---------------------------------- | ------------------------ |
+| `1677436352686185.webm`            | `LiftTogetherOrgans.mov` |
+| `G88xPUkWAAAYKvk.png`              | `my_vacation_photo.jpg`  |
+| `ssstwitter.com_1677363396448.mp4` | `birthdayParty.mp4`      |
+| `IMG_1234.jpg`                     | `I'mCat.mp4`             |
+| `trim.B62AC75E-….mov`              | `ProjectAlpha.mp4`       |
+
 
 Supported media: common image formats (JPG, PNG, GIF, WebP, …) and video formats (MP4, MOV, MKV, WebM, …).
 
@@ -75,6 +83,8 @@ MediaNamer/
 ├── requirements.txt
 └── requirements-build.txt
 ```
+
+
 
 ## Development
 
