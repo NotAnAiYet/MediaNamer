@@ -20,6 +20,10 @@ def test_descriptive_names():
     assert is_descriptive_name("ban_can")
     assert is_descriptive_name("my_cat")
     assert is_descriptive_name("HARAMYoMama")
+    assert is_descriptive_name("No mp3")
+    assert is_descriptive_name("cat1")
+    assert is_descriptive_name("cat2")
+    assert is_descriptive_name("Delete1")
 
 
 def test_undescriptive_names():
@@ -42,6 +46,12 @@ def test_undescriptive_names():
     assert not is_descriptive_name("unknown-3-1")
     assert not is_descriptive_name("untitled_42")
     assert not is_descriptive_name("G88xPUkWAAAYKvk")
+    assert not is_descriptive_name("images")
+    assert not is_descriptive_name("ZL74XQb")
+    assert not is_descriptive_name("Zrzutekranu_2018-02-28-10-31-12-295")
+    assert not is_descriptive_name("vd90p8p")
+    assert not is_descriptive_name("EBfJPSWX4AISrUP")
+    assert not is_descriptive_name("awrfwafaw")
 
 
 def test_example_data_current_folder():

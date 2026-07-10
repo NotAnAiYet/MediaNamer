@@ -11,10 +11,12 @@ MEDIA_EXTENSIONS = IMAGE_EXTENSIONS | VIDEO_EXTENSIONS
 
 # Generic placeholder words — not treated as human-chosen names
 _GENERIC_WORDS = {
-    "unknown", "untitled", "image", "photo", "video", "picture", "file",
-    "document", "download", "attachment", "media", "copy", "temp", "tmp",
+    "unknown", "untitled", "image", "images", "photo", "photos", "video", "videos",
+    "picture", "pictures", "file", "files",
+    "document", "documents", "download", "attachment", "media", "copy", "temp", "tmp",
     "new", "imported", "export", "scan", "scanned", "img", "pic", "recording",
     "audio", "clip", "movie", "screenshot", "screen", "shot", "default",
+    "zrzutekranu", "zrzut", "ekranu",
 }
 
 # Camera / phone auto-generated name patterns
@@ -28,6 +30,7 @@ _CAMERA_PATTERNS = [
     re.compile(r"^GH\d+$", re.IGNORECASE),
     re.compile(r"^Screenshot[-_]?\d*$", re.IGNORECASE),
     re.compile(r"^Screen[- ]?Shot", re.IGNORECASE),
+    re.compile(r"^Zrzutekranu", re.IGNORECASE),
     re.compile(r"^image[-_]?\d+$", re.IGNORECASE),
     re.compile(r"^video[-_]?\d+$", re.IGNORECASE),
     re.compile(r"^photo[-_]?\d+$", re.IGNORECASE),
@@ -57,6 +60,9 @@ _NUMERIC_ID_PATTERNS = [
     re.compile(r"^\d{8,}"),
 ]
 
+# Screenshot / export timestamps (e.g. Zrzutekranu_2018-02-28-10-31-12-295)
+_DATETIME_SUFFIX_PATTERN = re.compile(r"\d{4}-\d{2}-\d{2}(-\d{2}){2,}")
+
 
 def _camel_case_words(name: str) -> list[str]:
     spaced = re.sub(r"([a-z])([A-Z])", r"\1 \2", name)
@@ -81,7 +87,15 @@ def _vowel_ratio(letters: str) -> float:
     return vowels / len(letters) if letters else 0.0
 
 
+def _unique_letter_ratio(letters: str) -> float:
+    lowered = letters.lower()
+    return len(set(lowered)) / len(lowered) if lowered else 0.0
+
+
 def _is_meaningful_word(word: str) -> bool:
+    if re.search(r"\d", word):
+        return False
+
     letters = re.sub(r"\d", "", word)
     if len(letters) < 4:
         return False
@@ -91,6 +105,12 @@ def _is_meaningful_word(word: str) -> bool:
         return False
     if letters.islower():
         if len(letters) >= 16 and _vowel_ratio(letters) < 0.25:
+            return False
+        if (
+            len(letters) >= 8
+            and _unique_letter_ratio(letters) <= 0.5
+            and _vowel_ratio(letters) < 0.38
+        ):
             return False
         return True
     if letters[0].isupper() and letters[1:].islower():
@@ -109,7 +129,13 @@ def _has_human_phrase(name: str) -> bool:
             return True
 
     if " " in name:
-        return any(_is_meaningful_word(word) for word in name.split())
+        words = name.split()
+        if len(words) >= 2 and all(
+            re.fullmatch(r"[a-zA-Z0-9]{2,}", word) and re.search(r"[a-zA-Z]", word)
+            for word in words
+        ):
+            return True
+        return any(_is_meaningful_word(word) for word in words)
 
     camel_words = _camel_case_words(name)
     meaningful = [word for word in camel_words if _is_meaningful_word(word)]
@@ -134,11 +160,17 @@ def _looks_like_random_id(name: str) -> bool:
 
     if not re.fullmatch(r"[A-Za-z0-9]+", name):
         return False
-    if len(name) < 10:
+    if len(name) < 6:
         return False
 
     if re.fullmatch(r"[a-zA-Z]{4,}\d{2,4}", name):
         return False
+
+    if re.fullmatch(r"[A-Za-z]{2,}\d{1,4}", name):
+        return False
+
+    if len(name) < 10 and re.search(r"\d", name):
+        return True
 
     words = _camel_case_words(name)
     meaningful = [word for word in words if _is_meaningful_word(word)]
@@ -159,6 +191,9 @@ def _looks_like_random_id(name: str) -> bool:
     if re.fullmatch(r"[a-z]{18,}", name):
         return True
 
+    if re.fullmatch(r"[a-z]{8,17}", name) and _unique_letter_ratio(name) <= 0.5:
+        return True
+
     return False
 
 
@@ -173,6 +208,9 @@ def _has_auto_generated_pattern(name: str) -> bool:
     for pattern in _NUMERIC_ID_PATTERNS:
         if pattern.search(name):
             return True
+
+    if _DATETIME_SUFFIX_PATTERN.search(name):
+        return True
 
     for pattern in _CAMERA_PATTERNS:
         if pattern.search(name):
@@ -212,12 +250,20 @@ def is_descriptive_name(stem: str) -> bool:
     if not re.search(r"[a-zA-Z]", name):
         return False
 
+    if name.lower() in _GENERIC_WORDS:
+        return False
+
     if _has_auto_generated_pattern(name):
         return False
 
+    if re.fullmatch(r"[A-Za-z]{2,}\d{1,4}", name):
+        return True
+
     letters_only = re.sub(r"\d", "", name)
     return _has_human_phrase(name) or (
-        not re.search(r"[_\-.]", name) and len(letters_only) <= 15
+        not re.search(r"[_\-.]", name)
+        and len(letters_only) <= 15
+        and not re.search(r"\d", name)
     )
 
 
