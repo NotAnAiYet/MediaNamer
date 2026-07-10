@@ -33,6 +33,19 @@ def test_rename_session_skip(tmp_path):
     assert session.is_done()
 
 
+def test_rename_session_subfolders(tmp_path):
+    sub = tmp_path / "nested"
+    sub.mkdir()
+    (tmp_path / "11111.jpg").write_bytes(b"x")
+    (sub / "22222.jpg").write_bytes(b"x")
+
+    session = RenameSession()
+    assert session.load(tmp_path, include_subfolders=True) == 2
+    assert session.current().name == "11111.jpg"
+    session.skip()
+    assert session.current() == sub / "22222.jpg"
+
+
 def test_rename_duplicate(tmp_path):
     (tmp_path / "11111.png").write_bytes(b"x")
     (tmp_path / "taken.png").write_bytes(b"x")

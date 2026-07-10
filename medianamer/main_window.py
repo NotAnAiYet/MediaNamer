@@ -55,6 +55,14 @@ class MainWindow(QMainWindow):
         loop.triggered.connect(self._on_loop_changed)
         settings_menu.addAction(loop)
 
+        settings_menu.addSeparator()
+
+        include_subfolders = QAction("Include &subfolders", self)
+        include_subfolders.setCheckable(True)
+        include_subfolders.setChecked(self._settings.include_subfolders)
+        include_subfolders.triggered.connect(self._on_include_subfolders_changed)
+        settings_menu.addAction(include_subfolders)
+
     def _build_ui(self) -> None:
         central = QWidget()
         self.setCentralWidget(central)
@@ -125,6 +133,12 @@ class MainWindow(QMainWindow):
         self._settings.video_loop = checked
         self._video.on_loop_changed()
 
+    def _on_include_subfolders_changed(self, checked: bool) -> None:
+        self._settings.include_subfolders = checked
+        folder_text = self._folder_input.text().strip().strip('"')
+        if folder_text and Path(folder_text).is_dir():
+            self._load_folder(Path(folder_text))
+
     def _browse_folder(self) -> None:
         folder = QFileDialog.getExistingDirectory(self, "Select folder")
         if folder:
@@ -145,7 +159,7 @@ class MainWindow(QMainWindow):
 
         self._video.release()
         self._folder_input.setText(str(folder))
-        count = self._session.load(folder)
+        count = self._session.load(folder, include_subfolders=self._settings.include_subfolders)
 
         if count == 0:
             self._set_workflow_enabled(False)
@@ -173,7 +187,7 @@ class MainWindow(QMainWindow):
             f"File {self._session.index + 1} of {self._session.count}"
             f"  ·  {self._session.remaining} remaining"
         )
-        self._current_name_label.setText(f"Current name: {path.name}")
+        self._current_name_label.setText(f"Current name: {self._display_path(path)}")
         self._new_name_input.clear()
         self._new_name_input.setFocus()
 
@@ -183,6 +197,15 @@ class MainWindow(QMainWindow):
             self._show_video(path)
         else:
             self._preview.show_empty()
+
+    def _display_path(self, path: Path) -> str:
+        folder = self._session.folder
+        if folder is not None:
+            try:
+                return str(path.relative_to(folder))
+            except ValueError:
+                pass
+        return path.name
 
     def _show_image(self, path: Path) -> None:
         self._video.release()

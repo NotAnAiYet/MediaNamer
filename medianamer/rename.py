@@ -50,9 +50,9 @@ class RenameSession:
     def remaining(self) -> int:
         return max(0, len(self._queue) - self._index)
 
-    def load(self, folder: Path) -> int:
+    def load(self, folder: Path, *, include_subfolders: bool = False) -> int:
         self._folder = folder
-        self._queue = find_files_needing_rename(folder)
+        self._queue = find_files_needing_rename(folder, include_subfolders=include_subfolders)
         self._index = 0
         return len(self._queue)
 

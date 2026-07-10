@@ -35,3 +35,12 @@ class AppSettings:
     def video_loop(self, value: bool) -> None:
         self._settings.setValue("video/loop", value)
         self._settings.sync()
+
+    @property
+    def include_subfolders(self) -> bool:
+        return _read_bool(self._settings, "scan/include_subfolders", False)
+
+    @include_subfolders.setter
+    def include_subfolders(self, value: bool) -> None:
+        self._settings.setValue("scan/include_subfolders", value)
+        self._settings.sync()

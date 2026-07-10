@@ -63,3 +63,19 @@ def test_needs_rename(tmp_path):
     found = find_files_needing_rename(tmp_path)
     assert len(found) == 1
     assert found[0].name == "1677436352686185.webm"
+
+
+def test_find_files_needing_rename_subfolders(tmp_path):
+    sub = tmp_path / "nested"
+    sub.mkdir()
+    (tmp_path / "12345.jpg").write_bytes(b"x")
+    (sub / "67890.png").write_bytes(b"x")
+    (tmp_path / "vacation.jpg").write_bytes(b"x")
+
+    assert len(find_files_needing_rename(tmp_path)) == 1
+    assert find_files_needing_rename(tmp_path)[0].name == "12345.jpg"
+
+    found = find_files_needing_rename(tmp_path, include_subfolders=True)
+    assert len(found) == 2
+    assert found[0].name == "12345.jpg"
+    assert found[1] == sub / "67890.png"

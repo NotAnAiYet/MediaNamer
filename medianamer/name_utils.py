@@ -199,9 +199,17 @@ def needs_rename(path: Path) -> bool:
     return not is_descriptive_name(path.stem)
 
 
-def find_files_needing_rename(folder: Path) -> list[Path]:
+def find_files_needing_rename(folder: Path, *, include_subfolders: bool = False) -> list[Path]:
     if not folder.is_dir():
         return []
+
+    if include_subfolders:
+        files = [
+            entry
+            for entry in folder.rglob("*")
+            if entry.is_file() and needs_rename(entry)
+        ]
+        return sorted(files, key=lambda p: str(p.relative_to(folder)).lower())
 
     files = [
         entry
